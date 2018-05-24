@@ -90,11 +90,6 @@ function createQuestions(config) {
     },
     {
       type: 'input',
-      name: 'issues',
-      message: 'List any issue closed (#1, ...):'
-    },
-    {
-      type: 'input',
       name: 'body',
       message: 'Provide a longer description:'
     }
@@ -109,7 +104,7 @@ function createQuestions(config) {
  */
 function format(answers) {
   // parentheses are only needed when a scope is present
-  const scope = answers.scope ? '(' + answers.scope.trim() + ') ' : ''
+  const scope = answers.scope ? '- ' + answers.scope.trim() + ' - ' : ''
 
   // build head line and limit it to 100
   const head = truncate(answers.type + ' ' + scope + answers.subject.trim(), 100)
@@ -117,11 +112,7 @@ function format(answers) {
   // wrap body at 100
   const body = wrap(answers.body, 100)
 
-  const footer = (answers.issues.match(/#\d+/g) || [])
-    .map(issue => `Closes ${issue}`)
-    .join('\n')
-
-  return [head, body, footer]
+  return [head, body]
     .join('\n\n')
     .trim()
 }
